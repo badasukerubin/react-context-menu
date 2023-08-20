@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { MouseEvent, useCallback } from "react";
+import "./App.css";
+import Tabs from "./Components/Tab/Tabs";
+import AppHeaderContextMenu from "./Components/Layout/AppHeaderContextMenu";
+import { ContextMenuType } from "./Components/Layout/types";
+import useContextMenuToggle from "./Hooks/useContextMenuToggle";
+import { ContextMenuToggleContext } from "./Contexts/ContextMenuToggleContext";
 
-function App() {
+export default function App() {
+  const contextMenuToggle = useContextMenuToggle();
+
+  const handleOutsideClick = useCallback(() => {
+    contextMenuToggle.isOpen() && contextMenuToggle.close();
+  }, [contextMenuToggle]);
+
+  function handleRightClick(e: MouseEvent<HTMLDivElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div
+      className="App"
+      onClick={handleOutsideClick}
+      onContextMenu={handleRightClick}
+    >
+      <header
+        className="App-header"
+        onContextMenu={(e) => {
+          contextMenuToggle.open(e, ContextMenuType.AppHeader);
+        }}
+      >
+        <ContextMenuToggleContext.Provider value={contextMenuToggle}>
+          <Tabs />
+        </ContextMenuToggleContext.Provider>
       </header>
+
+      <AppHeaderContextMenu
+        {...contextMenuToggle.positions}
+        isOpen={contextMenuToggle.isOpen(ContextMenuType.AppHeader)}
+      />
     </div>
   );
 }
-
-export default App;
