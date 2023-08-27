@@ -1,8 +1,8 @@
 import { Context, createContext } from "react";
-import { ContextMenuTogglProps } from "../Hooks/types";
+import { ContextMenuToggleProps } from "./types";
 
-export const ContextMenuToggleContext: Context<ContextMenuTogglProps> =
-  createContext<ContextMenuTogglProps>({
+export const ContextMenuToggleContext: Context<ContextMenuToggleProps> =
+  createContext<ContextMenuToggleProps>({
     close: () => {
       return;
     },

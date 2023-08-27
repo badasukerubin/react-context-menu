@@ -1,8 +1,9 @@
 import { MouseEvent, useCallback, useState } from "react";
-import { ContextMenuTogglProps, OpenContextMenuToggle } from "./types";
+import { OpenContextMenuToggle } from "./types";
 import { OutsideClickContextState } from "../Components/Layout/types";
+import { ContextMenuToggleProps } from "../Contexts/types";
 
-export default function useContextMenuToggle(): ContextMenuTogglProps {
+export default function useContextMenuToggle(): ContextMenuToggleProps {
   const outsideClick: OutsideClickContextState = {
     show: false,
     name: "",

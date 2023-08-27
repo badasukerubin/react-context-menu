@@ -20,10 +20,13 @@ export default memo(function GenericContextMenu({
     top: yPosition,
     left: xPosition,
   });
+  // We filter out the menus that are not shown
   const shownMenus = menus.filter((menu) => menu.show === true);
   const ref = useRef<HTMLDivElement>(null);
   const contextMenuToggle = useContext(ContextMenuToggleContext);
 
+  // We adjust the position of the context menu if it is going to be out of the screen
+  // We use useLayoutEffect to avoid flickering, useLayoutEffect runs synchronously after all DOM mutations.
   useLayoutEffect(() => {
     function adjustPosition() {
       const { innerWidth, innerHeight } = window;
